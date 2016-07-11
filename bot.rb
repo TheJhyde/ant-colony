@@ -88,4 +88,7 @@ def movesStraightBot
 	end
 end
 
-antMove(200, [-1, 1, 1])
+r = Random.new
+moves = r.rand(1150)+10
+puts "Let's move an ant #{moves} times"
+antMove(moves, [-1, 1, 1])

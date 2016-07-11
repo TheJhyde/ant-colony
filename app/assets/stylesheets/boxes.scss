@@ -5,11 +5,24 @@
 .box{
   width: 25px;
   height: 25px;
-  margin: 1px;
+  margin: 0.5px;
   border-style: solid;
   display: inline-block;
 }
 
 .row{
 	white-space: nowrap;
+}
+
+#instructions{
+	display: inline-block;
+	vertical-align: top;
+	font-size: 30px;
+	width: 40%;
+	line-height: 100%;
+	margin-left: 20px;
+}
+
+#grid{
+	display: inline-block;
 }
