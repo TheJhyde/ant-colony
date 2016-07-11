@@ -1,9 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  author: MyString
-  text: MyText
+  x: 1
+  'y': 1
+  color: 1
 
 two:
-  author: MyString
-  text: MyText
+  x: 1
+  'y': 1
+  color: 1

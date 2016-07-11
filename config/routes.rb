@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  root 'pages#index'
-
-  resources :comments
+  resources :boxes
+  root 'boxes#index'
 end

@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160709165629) do
+ActiveRecord::Schema.define(version: 20160709234159) do
+
+  create_table "boxes", force: :cascade do |t|
+    t.integer  "x"
+    t.integer  "y"
+    t.integer  "color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "comments", force: :cascade do |t|
     t.string   "author"

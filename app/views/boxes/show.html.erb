@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>X:</strong>
+  <%= @box.x %>
+</p>
+
+<p>
+  <strong>Y:</strong>
+  <%= @box.y %>
+</p>
+
+<p>
+  <strong>Color:</strong>
+  <%= @box.color %>
+</p>
+
+<%= link_to 'Edit', edit_box_path(@box) %> |
+<%= link_to 'Back', boxes_path %>
