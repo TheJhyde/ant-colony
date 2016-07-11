@@ -26,3 +26,11 @@
 #grid{
 	display: inline-block;
 }
+
+.selected_box{
+	animation: blink .5s step-end infinite alternate;
+}
+
+@keyframes blink{
+	50% { border-color: #666666}
+}

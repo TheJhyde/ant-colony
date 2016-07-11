@@ -180,12 +180,14 @@ var Box = React.createClass({
     var divStyle = {
       background: colors[this.props.color]
     };
+    var boxClass = "box"
     //My sloppy approach to xs and ys and rows and columns bites me in the ass here
     if(this.props.column == playerX && this.props.row == playerY){
-      divStyle["borderColor"] = "grey"
+      //divStyle["borderColor"] = "grey"
+      boxClass += " selected_box"
     }
     return(
-      <div className = "box" style={divStyle} /*onClick={this.handleClick}*/></div>
+      <div className = {boxClass} style={divStyle} /*onClick={this.handleClick}*/></div>
     );
   }
 });
