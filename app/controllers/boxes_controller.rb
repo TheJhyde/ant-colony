@@ -27,20 +27,29 @@ class BoxesController < ApplicationController
 
   # POST /boxes
   # POST /boxes.json
+  #So I jam create, update, and destroy all into one function. So be it
   def create
     @box = Box.new(box_params)
-    #If there any boxes at that location already, delete them. Probably not the fastest way to do this
+    #If there any boxes at that location already, update them
     if Box.where(x: @box.x, y: @box.y).count > 0
-      Box.where(x: @box.x, y: @box.y).delete_all
-    end
-
-    respond_to do |format|
-      if @box.save
-        format.html { redirect_to @box, notice: 'Box was successfully created.' }
-        format.json { render json: @box.color }
+      if @box.color == 0
+        Box.where(x: @box.x, y: @box.y).delete_all
       else
-        format.html { render :new }
-        format.json { render json: @box.errors, status: :unprocessable_entity }
+        Box.where(x: @box.x, y: @box.y).first.update(color: @box.color)
+      end
+      respond_to do |format|
+        format.html { redirect_to @box, notice: 'Box was successfully updated.' }
+        format.json { render json: @box.color }
+      end
+    else
+      respond_to do |format|
+        if @box.save
+          format.html { redirect_to @box, notice: 'Box was successfully created.' }
+          format.json { render json: @box.color }
+        else
+          format.html { render :new }
+          format.json { render json: @box.errors, status: :unprocessable_entity }
+        end
       end
     end
   end

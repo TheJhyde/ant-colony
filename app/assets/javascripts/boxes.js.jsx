@@ -7,8 +7,6 @@ var size = 20;
 
 var playerX = Math.floor(Math.random() * size);
 var playerY = Math.floor(Math.random() * size);
-// var playerX = 10;
-// var playerY = 10;
 var playerColor = Math.floor(Math.random() * (colors.length-1) + 1);
 
 var Grid = React.createClass({
@@ -34,17 +32,34 @@ var Grid = React.createClass({
       cache: false,
       success: function(data) {
         //var grid = this.state.data;
-        this.setState(function(){
-          var updatedRows = {};
-          var state = this.state
-          data.forEach(function(box){
-            if(!updatedRows[box.x]){
-              updatedRows[box.x] = state[box.x]
+        var grid = {}
+        for(var i = 0; i < size; i++){
+          var row = []
+          for(var j = 0; j < size; j++){
+            var box = data.find(function(box){
+              return box["x"] == i && box["y"] == j
+            });
+            if(box != undefined){
+              row.push(box["color"])
+            }else{
+              row.push(0)
             }
-            updatedRows[box.x][box.y] = box.color
-          });
-          return updatedRows;
-        });
+          }
+          grid[i] = row
+        }
+        this.setState(grid);
+        //This old version of set stand could only add boxes, not remove them
+        // this.setState(function(){
+        //   var updatedRows = {};
+        //   var state = this.state
+        //   data.forEach(function(box){
+        //     if(!updatedRows[box.x]){
+        //       updatedRows[box.x] = state[box.x]
+        //     }
+        //     updatedRows[box.x][box.y] = box.color
+        //   });
+        //   return updatedRows;
+        // });
       }.bind(this),
       error: function(xhr, status, err){
         console.error(this.props.url, status, err.toString(), "bluh");
@@ -53,7 +68,7 @@ var Grid = React.createClass({
   },
   componentDidMount: function(){
     this.loadGridFromServer();
-    setInterval(this.loadGridFromServer, 2000);
+    setInterval(this.loadGridFromServer, 500);
 
     $(document).keydown(this.keyDown)
   },
@@ -65,25 +80,25 @@ var Grid = React.createClass({
     switch(e.key){
       case "d":
         playerX = (playerX + 1) % size;
-        this.updateGrid(playerY, playerX, playerColor);
+        this.updateGrid(playerY, playerX, this.nextColor(playerX, playerY));
         break;
       case "a":
         playerX--;
         if(playerX < 0){
           playerX = size - 1;
         }
-        this.updateGrid(playerY, playerX, playerColor);
+        this.updateGrid(playerY, playerX, this.nextColor(playerX, playerY));
         break;
       case "w":
         playerY--;
         if(playerY < 0){
           playerY = size - 1;
         }
-        this.updateGrid(playerY, playerX, playerColor);
+        this.updateGrid(playerY, playerX, this.nextColor(playerX, playerY));
         break;
       case "s":
         playerY = (playerY + 1)%size;
-        this.updateGrid(playerY, playerX, playerColor);
+        this.updateGrid(playerY, playerX, this.nextColor(playerX, playerY));
         break;
       case "l":
         this.updateGrid(10, 10, 1);
@@ -91,6 +106,13 @@ var Grid = React.createClass({
       default:
         break;
     }
+  },
+  nextColor: function(x, y){
+    var color = this.state[y][x]
+    console.log("This square is " + color)
+    var nextColor = (color + 1) % colors.length
+    console.log("Next color is  " + nextColor)
+    return nextColor
   },
   updateGrid: function(x, y, newColor){
     var oldColor = this.state[x][y]
