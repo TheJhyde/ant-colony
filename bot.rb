@@ -1,17 +1,16 @@
-@r = Random.new
-
 def knightMove(blockNumber)
+	r = Random.new
 
 	size = 20
 
-	botX = @r.rand(size)
-	botY = @r.rand(size)
-	botColor = @r.rand(2) + 1
-	botState = @r.rand(4)
+	botX = r.rand(size)
+	botY = r.rand(size)
+	botColor = 1
+	botState = r.rand(4)
 
 	50.times do
 		puts "Placing box"
-		if botState < 3
+		if botState < 2
 			botX = (botX + 1) % size
 			botState += 1
 		else
@@ -28,5 +27,6 @@ def knightMove(blockNumber)
 	end
 end
 
-
-knightMove(@r(40)+10)
+r_also = Random.new
+moves = r_also.rand(50)+20
+knightMove( moves )
