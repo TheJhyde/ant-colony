@@ -5,7 +5,7 @@ def knightMove(blockNumber)
 
 	botX = r.rand(size)
 	botY = r.rand(size)
-	botColor = 1
+	botColor = r.rand(3)
 	botState = r.rand(4)
 
 	50.times do
