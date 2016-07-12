@@ -31,7 +31,6 @@ var Grid = React.createClass({
       datatype: 'json',
       cache: false,
       success: function(data) {
-        //var grid = this.state.data;
         var grid = {}
         for(var i = 0; i < size; i++){
           var row = []
@@ -62,13 +61,13 @@ var Grid = React.createClass({
         // });
       }.bind(this),
       error: function(xhr, status, err){
-        console.error(this.props.url, status, err.toString(), "bluh");
+        console.error(this.props.url, status, err.toString(), "loadGrid error");
       }.bind(this)
     });
   },
   componentDidMount: function(){
     this.loadGridFromServer();
-    setInterval(this.loadGridFromServer, 500);
+    setInterval(this.loadGridFromServer, 1000);
 
     $(document).keydown(this.keyDown)
   },
@@ -109,12 +108,13 @@ var Grid = React.createClass({
   },
   nextColor: function(x, y){
     var color = this.state[y][x]
-    console.log("This square is " + color)
+    //console.log("This square is " + color)
     var nextColor = (color + 1) % colors.length
-    console.log("Next color is  " + nextColor)
+    //console.log("Next color is  " + nextColor)
     return nextColor
   },
   updateGrid: function(x, y, newColor){
+    //console.log("Updating the grid with a new", colors[newColor], "box");
     var oldColor = this.state[x][y]
 
     var updateValue = {}
@@ -129,15 +129,19 @@ var Grid = React.createClass({
       datatype: 'json',
       type: 'POST',
       data: {box: newBox},
+      success: function(){
+        var updateValue = {}
+        updateValue[x] = this.state[x]
+        updateValue[x][y] = newColor
+        this.setState(updateValue);
+      }.bind(this),
       error: function(xhr, status, err){
-        //rid[x][y] = oldColor;
-        //this.setState({data: grid});
         var revertValue = {}
         revertValue[x] = this.state[x]
         revertValue[x][y] = oldColor
         this.setState(revertValue);
 
-        console.error(this.props.url, status, err.toString(), "bluh");
+        console.error(this.props.url, status, err.toString(), "updateGrid error");
       }.bind(this)
     });
   },
@@ -177,6 +181,7 @@ var Box = React.createClass({
   //   this.props.onBoxClick({x: this.props.row, y: this.props.column, color: this.props.color});
   // },
   render: function(){
+    //console.log("Drawing a ", colors[this.props.color], " box");
     var divStyle = {
       background: colors[this.props.color]
     };
