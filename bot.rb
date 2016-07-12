@@ -37,7 +37,6 @@ def antMove(duration, name)
 	orientation = 0
 
 	duration.times do
-		puts "Moving ant"
 		#Turn based on the current square and then increment the square up
 		if Box.where(x: botX, y: botY).count == 0
 			orientation = (orientation + name[0]) % 4
@@ -64,6 +63,7 @@ def antMove(duration, name)
 		end
 		sleep 0.5
 	end
+	puts "The bot has finished"
 end
 
 def iterateBox(x, y)
@@ -72,7 +72,6 @@ def iterateBox(x, y)
 	elsif Box.where(x: x, y: y).first.color == 1
 		Box.where(x: x, y: y).first.update(color: 2)
 	else
-		# 
 		Box.where(x: x, y: y).delete_all
 	end
 end
@@ -83,12 +82,13 @@ def movesStraightBot
 	100.times do
 		botY = (botY + 1) % 20
 		iterateBox(botX, botY)
-		puts "This dumb bot is at #{botY}"
 		sleep 0.5
 	end
 end
 
 r = Random.new
-moves = r.rand(1150)+10
-puts "Let's move an ant #{moves} times"
-antMove(moves, [-1, 1, 1])
+while true
+	puts "Starting up bot"
+	antMove(r.rand(1150)+10, [-1, 1, 1])
+	sleep r.rand(600) + 300
+end
